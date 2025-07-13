@@ -106,14 +106,26 @@ export async function signInWithGoogle(supabase: SupabaseClient) {
   try {
     const isDev = process.env.NODE_ENV === "development"
 
-    // Get base URL dynamically (will work in both browser and server environments)
-    const baseUrl = isDev
-      ? "http://localhost:3000"
-      : typeof window !== "undefined"
-        ? window.location.origin
-        : process.env.NEXT_PUBLIC_VERCEL_URL
-          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-          : APP_DOMAIN
+    let baseUrl;
+
+    if (isDev) {
+      baseUrl = "http://localhost:3000"
+    }
+
+    if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+      baseUrl = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    } else {
+      baseUrl = APP_DOMAIN
+    }
+
+    // // Get base URL dynamically (will work in both browser and server environments)
+    // const baseUrl = isDev
+    //   ? "http://localhost:3000"
+    //   : typeof window !== "undefined"
+    //     ? window.location.origin
+    //     : process.env.NEXT_PUBLIC_VERCEL_URL
+    //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    //       : APP_DOMAIN
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
