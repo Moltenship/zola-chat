@@ -102,24 +102,21 @@ export async function updateChatModel(chatId: string, model: string) {
 /**
  * Signs in user with Google OAuth via Supabase
  */
-export async function signInWithGoogle(supabase: SupabaseClient, provider: 'google' | 'twitch' = 'google') {
+export async function signInWithGoogle(supabase: SupabaseClient) {
   try {
     const isDev = process.env.NODE_ENV === "development"
 
-    const baseUrl = APP_DOMAIN
-
-
-    // // Get base URL dynamically (will work in both browser and server environments)
-    // const baseUrl = isDev
-    //   ? "http://localhost:3000"
-    //   : typeof window !== "undefined"
-    //     ? window.location.origin
-    //     : process.env.NEXT_PUBLIC_VERCEL_URL
-    //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    //       : APP_DOMAIN
+    // Get base URL dynamically (will work in both browser and server environments)
+    const baseUrl = isDev
+      ? "http://localhost:3000"
+      : typeof window !== "undefined"
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_VERCEL_URL
+          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+          : APP_DOMAIN
 
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider: "google",
       options: {
         redirectTo: `${baseUrl}/auth/callback`,
         queryParams: {
