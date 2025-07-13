@@ -86,7 +86,7 @@ export function UserMenu() {
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <a
-            href="https://github.com/ibelick/zola"
+            href="https://github.com/moltenship/zola-chat"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2"
